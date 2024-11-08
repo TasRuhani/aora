@@ -9,17 +9,17 @@ const GlobalProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [hasSeenWelcome, setHasSeenWelcome] = useState(false); // New state for managing the welcome screen
 
   useEffect(() => {
     getCurrentUser()
       .then((res) => {
         if (res) {
-          setIsLogged(true);
           setUser(res);
         } else {
-          setIsLogged(false);
           setUser(null);
         }
+        setIsLogged(false); // Start as not logged in to show the welcome screen first
       })
       .catch((error) => {
         console.log(error);
@@ -37,6 +37,8 @@ const GlobalProvider = ({ children }) => {
         user,
         setUser,
         loading,
+        hasSeenWelcome,
+        setHasSeenWelcome, // Expose this function to be used in index.jsx
       }}
     >
       {children}
